@@ -1,0 +1,40 @@
+{
+  "name": "protractor-error",
+  "version": "0.0.1",
+  "description": "A protractor runner that allows you to run errors from previous runs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manda-linda/protractor-error.git"
+  },
+  "keywords": [
+    "jasmine",
+    "protractor",
+    "test",
+    "testing",
+    "angular",
+    "E2E"
+  ],
+  "author": "Amanda daSilva <adasilva@grubhub.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/manda-linda/protractor-error/issues"
+  },
+  "homepage": "https://github.com/manda-linda/protractor-error#readme",
+  "engines": {
+    "node": ">=6.9.x"
+  },
+  "dependencies": {
+    "jasmine-reporters": "^2.2.0",
+    "protractor": "^5.0.0",
+    "q": "^1.4.1",
+    "shelljs": "^0.7.6",
+    "xml2js": "^0.4.17"
+  },
+  "bin": {
+    "protractor-error": "bin/protractor-error.js"
+  }
+}
