@@ -1,6 +1,6 @@
 {
   "name": "protractor-errors",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A protractor runner that allows you to run errors from previous runs.",
   "main": "index.js",
   "scripts": {
@@ -35,6 +35,6 @@
     "xml2js": "^0.4.17"
   },
   "bin": {
-    "protractor-error": "bin/protractor-error.js"
+    "protractor-error": "bin/protractor-errors.js"
   }
 }
