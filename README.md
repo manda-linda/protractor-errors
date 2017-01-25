@@ -1,8 +1,6 @@
 # protractor-error
 
-A Jasmine wrapper for re-running failed Jasmine tests in Protractor. In the current state, this test runner identifies errors based on the
-spec description. If your test suite has collisions in spec descriptions, then the errors run will re-run all specs that match the 
-description.
+A Jasmine wrapper for re-running failed Jasmine tests in Protractor.
 
 # install
 
@@ -18,14 +16,18 @@ from the most recent run inside the directory `params.errorsPath`. The error out
 
 # configuration
 
-The module is configured by passing the following args:
+The module is configured by passing the following args or setting them inside the Protractor config:
 
-`params.errorsPath`: string, directory where the `JUnitXmlReporter` will write output and the module will look for previous run data
+`params.errorsPath`: string, directory where the `JUnitXmlReporter` will write output and the module will look for previous run data. I 
+recommend setting this in the Protractor configuration file since this should not change often.
 
 `params.currentTime`: string, timestamp of the current test run. Triggering the test with the `protractor-error` cli runner will
 set this value automatically.
 
 `params.errorsRun`?: boolean, default `false`, should the module limit the current run to previous errors
+
+`params.errorsTag`?: string, mark the current run/reference previously tagged run for errors
+
 
 Example:
 
