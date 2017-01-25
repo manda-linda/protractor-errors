@@ -1,10 +1,10 @@
-# protractor-error
+# protractor-errors
 
 A Jasmine wrapper for re-running failed Jasmine tests in Protractor.
 
 # install
 
-`npm install --save-dev protractor-error` or `npm install -g protractor-error` to add cli
+`npm install --save-dev protractor-errors` or `npm install -g protractor-errors` to add cli
 
 # setup
 
@@ -35,12 +35,12 @@ Example:
 
 or 
 
-`protractor-error config.js --params.errorsPath 'jasmineReports' --params.errorRun true`
+`protractor-errors config.js --params.errorsPath 'jasmineReports' --params.errorRun true`
 
 # cli
 
 To automate setting the `param.currentTime` argument, trigger your protractor tests using the cli.
 
-To run, either install `protractor-error` globally and call: `protractor-error <config> [args]` from the command line, with
+To run, either install `protractor-errors` globally and call: `protractor-errors <config> [args]` from the command line, with
 the same parameters you would call `protractor`. Or call the script by referencing the node_modules file directly: 
-`./node_modules/protractor-error/bin/protractor-error.js <config> [args]`. 
+`./node_modules/protractor-errors/bin/protractor-errors.js <config> [args]`. 
