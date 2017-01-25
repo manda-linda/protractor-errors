@@ -1,4 +1,4 @@
-function processFiles(reportPathName, ignoreFile) {
+function processFiles(reportPathName, ignoreFile, tag) {
     var xml2js = require('xml2js'),
         fs = require('fs'),
         path = require('path'),
@@ -7,6 +7,7 @@ function processFiles(reportPathName, ignoreFile) {
         mostRecentDirectory,
         mostRecentDirectoryStats,
         failedTests = [];
+        tag = tag ? '_'+ tag : tag;
 
         // STEP 1 - READ THROUGH THE DIRECTORIES AND DETERMINE THE MOST RECENT DIRECTORY
         var directories = fs.readdirSync(reportsFilePath);
@@ -16,7 +17,7 @@ function processFiles(reportPathName, ignoreFile) {
             var file = directories[i];
             const fullFilePath = path.join(reportsFilePath, file),
                   fileStats = fs.statSync(fullFilePath);
-            if (fileStats.isFile() || file === ignoreFile) {
+            if (fileStats.isFile() || file === ignoreFile || (tag && file.indexOf(tag) !== (file.length - tag.length))) {
                 //ignoring;
             } else if (!mostRecentDirectory) {
                 mostRecentDirectory = fullFilePath;
@@ -71,8 +72,8 @@ function processFiles(reportPathName, ignoreFile) {
                                 var testCase = testCaseArray[j];
                                 if (testCase.failure) {
                                     failedTests.push({
-                                        classname: testCase.$.classname,
-                                        name: testCase.$.name
+                                        classname: testCase.$.classname.trim().toLowerCase(),
+                                        name: testCase.$.name.trim().toLowerCase()
                                     });
                                 }
                             }

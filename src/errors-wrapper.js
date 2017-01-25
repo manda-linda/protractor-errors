@@ -5,66 +5,56 @@ function wrapper() {
         processFiles = require('./errors-file-processor.js'),
         jasmineReporter = require('jasmine-reporters'),
         errorList = [];
+
     if (!browser || !browser.params || !jasmine  || !browser.params.currentTime) {
         console.error('Missing browser.params required for protractor-errors');
         return; 
     }
 
+    var directoryName = browser.params.errorsTag ? browser.params.currentTime + '_' + browser.params.errorsTag : browser.params.currentTime;
+
     const junitOptions = {
-                savePath: './' + browser.params.errorsPath + '/' + browser.params.currentTime,
+                savePath: './' + browser.params.errorsPath + '/' + directoryName,
                 consolidateAll: false
             };
+
     jasmine.getEnv().addReporter(new jasmineReporter.JUnitXmlReporter(junitOptions));
     if (!browser.params.errorsRun || !(browser.params.errorsRun === 'true' || browser.params.errorsRun === 'True')) {
         return;
     }
-    const errorsDirectory = browser.params.errorsPath,
-        ignoreDirectory = browser.params.currentTime;
+
     try {
-        errorList = processFiles(errorsDirectory, ignoreDirectory);
+        errorList = processFiles(browser.params.errorsPath, directoryName, browser.params.errorsTag);
     } catch (e) {
         console.log("Previous Errors Reference Not Found.");
         console.log(e);
         errorList = [];
     }
 
-    var jasminexIt,
-        jasmineFit,
-        jasmineIt;
-
     defineOverrides();
+    jasmine.getEnv().specFilter = function() {
+        return shouldRunSpec(arguments[0].result);
+    }
 
-    function shouldRunSpec(description) {
+    function shouldRunSpec(result) {
+        let fullName = result.fullName.trim().toLowerCase();
         for (var i = 0; i < errorList.length; i++) {
-            if (errorList[i].name.trim().toLowerCase() === description.trim().toLowerCase()) {
+            if (fullName.indexOf(errorList[i].name) > -1 && fullName.indexOf(errorList[i].classname) > -1)  {
                 return true;
             }
         }
         return false;
     }
 
-    //@TODO In es6 should use spread operator
-    function wrapIt() {
-        if (shouldRunSpec(arguments[0])) {
-            jasmineFit(arguments[0], arguments[1], arguments[2]);
-
-        } else {
-            customxit(arguments[0], arguments[1], arguments[2]);
-        }
-    };
-
     function customxit() {
-        var spec = jasmineIt.apply(this, arguments);
+        var spec = global.it.apply(this, arguments);
         spec.disable('Temporarily disabled for errors run');
         return spec;
     }
 
     function defineOverrides() {
-        jasmineIt = global.it;
-        jasminexIt = global.xit;
-        jasmineFit = global.fit;
-        global.it = global.fit = wrapIt;
-        global.fdescribe = global.describe;
+        global.fit = global.it; 
+        global.fdescribe = global.describe ;
         global.xit = customxit;
     }
 };
