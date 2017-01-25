@@ -5,22 +5,21 @@ function wrapper() {
         processFiles = require('./errors-file-processor.js'),
         jasmineReporter = require('jasmine-reporters'),
         errorList = [];
-    if (!browser || !browser.params || !jasmine || !browser.params.errorsPath || !browser.params.currentTime) {
+    if (!browser || !browser.params || !jasmine  || !browser.params.currentTime) {
         console.error('Missing browser.params required for protractor-errors');
         return; 
     }
+
     const junitOptions = {
                 savePath: './' + browser.params.errorsPath + '/' + browser.params.currentTime,
                 consolidateAll: false
             };
     jasmine.getEnv().addReporter(new jasmineReporter.JUnitXmlReporter(junitOptions));
-
-    if (!browser.params.errorsRun) {
-        return 
+    if (!browser.params.errorsRun || !(browser.params.errorsRun === 'true' || browser.params.errorsRun === 'True')) {
+        return;
     }
-
     const errorsDirectory = browser.params.errorsPath,
-          ignoreDirectory = browser.params.currentTime;
+        ignoreDirectory = browser.params.currentTime;
     try {
         errorList = processFiles(errorsDirectory, ignoreDirectory);
     } catch (e) {
