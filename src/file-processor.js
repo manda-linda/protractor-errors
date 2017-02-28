@@ -1,9 +1,10 @@
+var xml2js = require('xml2js');
+var fs = require('fs');
+var path = require('path');
+var q = require('q');
+
 function processFiles(reportPathName, ignoreFile, tag) {
-    var xml2js = require('xml2js'),
-        fs = require('fs'),
-        path = require('path'),
-        q = require('q'),
-        reportsFilePath = path.join(process.cwd(), reportPathName),
+    var reportsFilePath = path.join(process.cwd(), reportPathName),
         mostRecentDirectory,
         mostRecentDirectoryStats,
         failedTests = [];
@@ -72,6 +73,7 @@ function processFiles(reportPathName, ignoreFile, tag) {
                                 var testCase = testCaseArray[j];
                                 if (testCase.failure) {
                                     failedTests.push({
+                                        suite: result.testsuites.testsuite[0].$.name,
                                         classname: testCase.$.classname.trim().toLowerCase().replace(' .','  '),
                                         name: testCase.$.name.trim().toLowerCase()
                                     });
