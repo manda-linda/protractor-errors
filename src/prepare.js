@@ -1,22 +1,23 @@
 'use strict';
 
-function wrapper() {
+var processFiles = require('./file-processor.js');
+var jasmineReporter = require('jasmine-reporters');
+
+function prepare() {
     var global = Function('return this')(),
-        processFiles = require('./errors-file-processor.js'),
-        jasmineReporter = require('jasmine-reporters'),
         errorList = [];
 
     if (!browser || !browser.params || !jasmine  || !browser.params.currentTime) {
         console.error('Missing browser.params required for protractor-errors');
-        return; 
+        return;
     }
 
     var directoryName = browser.params.errorsTag ? browser.params.currentTime + '_' + browser.params.errorsTag : browser.params.currentTime;
 
     const junitOptions = {
-                savePath: './' + browser.params.errorsPath + '/' + directoryName,
-                consolidateAll: false
-            };
+        savePath: './' + browser.params.errorsPath + '/' + directoryName,
+        consolidateAll: false
+    };
 
     jasmine.getEnv().addReporter(new jasmineReporter.JUnitXmlReporter(junitOptions));
     if (!browser.params.errorsRun || !(browser.params.errorsRun === 'true' || browser.params.errorsRun === 'True')) {
@@ -53,9 +54,9 @@ function wrapper() {
     }
 
     function defineOverrides() {
-        global.fit = global.it; 
+        global.fit = global.it;
         global.fdescribe = global.describe ;
         global.xit = customxit;
     }
 };
-module.exports = wrapper;
+module.exports = prepare;
