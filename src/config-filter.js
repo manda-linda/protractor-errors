@@ -22,7 +22,7 @@ function configFilter(config) {
 
     // Find the most recent directorty inside errorsPath
     try {
-        errorList = processFiles(browser.params.errorsPath, null, browser.params.errorsTag);
+        errorList = browser.params.errorsList || processFiles(browser.params.errorsPath, null, browser.params.errorsTag);
     } catch (e) {
         console.log("Previous errors reference not found.");
         console.log(e);
@@ -31,7 +31,8 @@ function configFilter(config) {
 
     var errorSuiteDict = {};
     errorList.forEach(function(error) {
-        errorSuiteDict[error.suite] = true;
+        let suite = error.suite.split('-')[0].trim().toLowerCase();
+        errorSuiteDict[suite] = true;
     });
 
     if (filteredConfig.suites[browser.suite] && browser.params.errorsRun) {

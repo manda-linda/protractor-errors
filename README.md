@@ -47,7 +47,8 @@ exports.config = protractorErrors.config({
 
 The module is configured by passing the following args or setting them inside the Protractor config:
 
-`params.errorsPath`: string, directory where the `JUnitXmlReporter` will write output and the module will look for previous run data. I
+`params.errorsList`: { suite: string; spec: string}[], 
+`params.errorsPath`: string, directory where the `JUnitXmlReporter` will write output and the module will look for previous run data is no `params.errorsList` is defined. I
 recommend setting this in the Protractor configuration file since this should not change often.
 
 `params.currentTime`: string, timestamp of the current test run. Triggering the test with the `protractor-error` cli runner will
@@ -56,6 +57,7 @@ set this value automatically.
 `params.errorsRun`?: boolean, default `false`, should the module limit the current run to previous errors
 
 `params.errorsTag`?: string, mark the current run/reference previously tagged run for errors
+
 
 
 Example:

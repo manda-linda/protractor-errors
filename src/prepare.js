@@ -4,6 +4,7 @@ var processFiles = require('./file-processor.js');
 var jasmineReporter = require('jasmine-reporters');
 
 function prepare() {
+    console.log(browser.params);
     var global = Function('return this')(),
         errorList = [];
 
@@ -25,7 +26,7 @@ function prepare() {
     }
 
     try {
-        errorList = processFiles(browser.params.errorsPath, directoryName, browser.params.errorsTag);
+        errorList = browser.params.errorsList || processFiles(browser.params.errorsPath, directoryName, browser.params.errorsTag);
     } catch (e) {
         console.log("Previous Errors Reference Not Found.");
         console.log(e);
@@ -40,7 +41,7 @@ function prepare() {
     function shouldRunSpec(result) {
         let fullName = result.fullName.trim().toLowerCase();
         for (var i = 0; i < errorList.length; i++) {
-            if (fullName.indexOf(errorList[i].name) > -1 && fullName.indexOf(errorList[i].classname) > -1)  {
+            if (fullName.indexOf(errorList[i].name) > -1 && fullName.indexOf(errorList[i].suite) > -1)  {
                 return true;
             }
         }

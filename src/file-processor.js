@@ -73,8 +73,7 @@ function processFiles(reportPathName, ignoreFile, tag) {
                                 var testCase = testCaseArray[j];
                                 if (testCase.failure) {
                                     failedTests.push({
-                                        suite: result.testsuites.testsuite[0].$.name,
-                                        classname: testCase.$.classname.trim().toLowerCase().replace(' .','  '),
+                                        suite: testCase.$.classname.trim().toLowerCase().replace(' .','  '),
                                         name: testCase.$.name.trim().toLowerCase()
                                     });
                                 }
