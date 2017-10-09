@@ -31,7 +31,7 @@ function configFilter(config) {
 
     var errorSuiteDict = {};
     errorList.forEach(function(error) {
-        let suite = error.suite.split('-')[0].trim().toLowerCase();
+        let suite = normalizeSuite(error.suite);
         errorSuiteDict[suite] = true;
     });
 
@@ -47,7 +47,7 @@ function configFilter(config) {
                 // Read the file contents, if the parent suite matches the errorList
                 var contents = fs.readFileSync(file, 'utf8');
                 var match = contents.match(regex);
-                if (match.length > 0 && errorSuiteDict[match[1]]) {
+                if (match.length > 0 && errorSuiteDict[normalizeSuite(match[1])]) {
                     filteredSuites.push(file);
                 }
             });
@@ -58,6 +58,10 @@ function configFilter(config) {
     }
 
     return filteredConfig;
+}
+
+function normalizeSuite(suite) {
+    if (suite) return suite.split('-')[0].trim().toLowerCase();
 }
 
 module.exports = configFilter;
