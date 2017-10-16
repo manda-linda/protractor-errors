@@ -1,6 +1,6 @@
 {
   "name": "protractor-errors",
-  "version": "1.1.0-beta",
+  "version": "1.1.0",
   "description": "A protractor runner that allows you to run errors from previous runs.",
   "main": "index.js",
   "scripts": {
