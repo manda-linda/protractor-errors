@@ -29,7 +29,7 @@ exports.config = {
 Protractor errors now has the ability to filter out the successful suites.  In order to use this
 please use the `config` function which will parse through the file globs in your original protractor config file, match the failed
 suites to the parent suite name and return back a list of just the failed files.  This was ultimately created to reduce run time
-for error runs and to also reduce using unnecessarty resources when pairing this with a cloud-based cross-browser testing tool.
+for error runs and to also reduce using unnecessary resources when pairing this with a cloud-based cross-browser testing tool.
 
 ```javascript
 var protractorErrors = require('protractor-errors');
@@ -41,6 +41,20 @@ exports.config = protractorErrors.config({
         protractorErrors.prepare();
     }
 })
+```
+
+If you want your errors run report to include the original run's results that did not change, call amend afterward.
+
+```javascript
+var protractorErrors = require('protractor-errors');
+
+// Below represents the protractor config file
+exports.config = {
+    // ...
+    onComplete: function() {
+        protractorErrors.amend();
+    }
+}
 ```
 
 # configuration

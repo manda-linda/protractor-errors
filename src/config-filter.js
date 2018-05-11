@@ -1,19 +1,19 @@
-var glob = require('glob');
-var fs = require('fs');
-var argv = require('minimist')(process.argv.slice(2));
-var processFiles = require('./file-processor.js');
+const glob = require('glob');
+const fs = require('fs');
+const argv = require('minimist')(process.argv.slice(2));
+const processFiles = require('./file-processor.js');
 
 function configFilter(config) {
 
-    var filteredConfig = Object.assign({}, config);
-    var options = {};
+    const filteredConfig = Object.assign({}, config);
+    const options = {};
 
     // Extend the defaults in the config
-    var defaultParams = config.params;
+    const defaultParams = config.params;
 
     // Get argument parameters
-    var browser = argv;
-    var definedParams = Object.assign({}, defaultParams, argv.params);
+    const browser = argv;
+    const definedParams = Object.assign({}, defaultParams, argv.params);
     browser.params = definedParams;
 
     if (!browser.params.errorsRun || !(browser.params.errorsRun === 'true' || browser.params.errorsRun === 'True')) {
@@ -22,31 +22,31 @@ function configFilter(config) {
 
     // Find the most recent directorty inside errorsPath
     try {
-        errorList = browser.params.errorsList || processFiles(browser.params.errorsPath, null, browser.params.errorsTag);
+        var errorList = browser.params.errorsList || processFiles(browser.params.errorsPath, null, browser.params.errorsTag);
     } catch (e) {
         console.log("Previous errors reference not found.");
         console.log(e);
         errorList = [];
     }
 
-    var errorSuiteDict = {};
+    const errorSuiteDict = {};
     errorList.forEach(function(error) {
         let suite = normalizeSuite(error.suite);
         errorSuiteDict[suite] = true;
     });
 
     if (filteredConfig.suites[browser.suite] && browser.params.errorsRun) {
-        var filteredSuites = [];
-        var suite = filteredConfig.suites[browser.suite];
-        var regex = /describe\(\'(.*)\'/i;
+        const filteredSuites = [];
+        const suite = filteredConfig.suites[browser.suite];
+        const regex = /describe\(\'(.*)\'/i;
 
         suite.forEach(function(filepathGlob) {
-            var files = glob.sync(filepathGlob, options);
+            const files = glob.sync(filepathGlob, options);
 
             files.forEach(function(file) {
                 // Read the file contents, if the parent suite matches the errorList
-                var contents = fs.readFileSync(file, 'utf8');
-                var match = contents.match(regex);
+                const contents = fs.readFileSync(file, 'utf8');
+                const match = contents.match(regex);
                 if (match.length > 0 && errorSuiteDict[normalizeSuite(match[1])]) {
                     filteredSuites.push(file);
                 }
