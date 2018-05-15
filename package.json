@@ -1,6 +1,6 @@
 {
   "name": "protractor-errors",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "A protractor runner that allows you to run errors from previous runs.",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/manda-linda/protractor-error#readme",
   "engines": {
-    "node": ">=6.9.x"
+    "node": ">=8.11.1"
   },
   "dependencies": {
     "glob": "^7.1.1",

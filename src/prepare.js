@@ -1,7 +1,7 @@
 'use strict';
 
-var processFiles = require('./file-processor.js');
-var jasmineReporter = require('jasmine-reporters');
+const processFiles = require('./file-processor.js');
+const jasmineReporter = require('jasmine-reporters');
 
 function prepare() {
     var global = Function('return this')(),
@@ -12,7 +12,7 @@ function prepare() {
         return;
     }
 
-    var directoryName = browser.params.errorsTag ? browser.params.currentTime + '_' + browser.params.errorsTag : browser.params.currentTime;
+    const directoryName = browser.params.errorsTag ? browser.params.currentTime + '_' + browser.params.errorsTag : browser.params.currentTime;
 
     const junitOptions = {
         savePath: './' + browser.params.errorsPath + '/' + directoryName,
@@ -41,7 +41,7 @@ function prepare() {
     defineOverrides();
     jasmine.getEnv().specFilter = function() {
         return shouldRunSpec(arguments[0].result);
-    }
+    };
 
     function shouldRunSpec(result) {
         let fullName = result.fullName.trim().toLowerCase();
@@ -54,7 +54,7 @@ function prepare() {
     }
 
     function customxit() {
-        var spec = global.it.apply(this, arguments);
+        const spec = global.it.apply(this, arguments);
         spec.disable('Temporarily disabled for errors run');
         return spec;
     }
@@ -64,5 +64,6 @@ function prepare() {
         global.fdescribe = global.describe ;
         global.xit = customxit;
     }
-};
+}
+
 module.exports = prepare;
